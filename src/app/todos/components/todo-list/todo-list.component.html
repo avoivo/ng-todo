@@ -1,0 +1,3 @@
+<ul>
+  <todo-list-item *ngFor="let todo of todos" [todo]="todo" (click)="toggle.emit(todo)"></todo-list-item>
+</ul>

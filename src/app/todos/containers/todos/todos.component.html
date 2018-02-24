@@ -1,0 +1,8 @@
+<div>
+  <h1>todos container</h1>
+
+  <input type="text" #todoInput>
+  <button (click)="add(todoInput.value)">Add</button>
+
+  <todo-list [todos]="todos$|async" (toggle)="toggle($event)"></todo-list>
+</div>

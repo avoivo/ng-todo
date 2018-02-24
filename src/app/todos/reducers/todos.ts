@@ -28,3 +28,17 @@ export function reducer(state = initialState, action: TodosActions): State {
     }
   }
 }
+
+export const {
+  // select the array of user ids
+  selectIds: selectTodoIds,
+
+  // select the dictionary of user entities
+  selectEntities: selectTodoEntities,
+
+  // select the array of users
+  selectAll: selectAllTodos,
+
+  // select the total user count
+  selectTotal: selectTodosTotal
+} = adapter.getSelectors();
