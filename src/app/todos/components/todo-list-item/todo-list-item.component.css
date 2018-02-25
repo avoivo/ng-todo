@@ -1,5 +1,10 @@
 li {
   cursor: pointer;
+  list-style-type: none;
+  background-color: #801515;
+  color: #ffaaaa;
+  margin: 0.2rem;
+  padding: 0.2rem;
 }
 
 li.done {
