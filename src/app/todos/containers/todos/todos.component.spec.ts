@@ -46,9 +46,14 @@ describe("TodosComponent", () => {
     expect(comp).toBeTruthy();
   });
 
+  it("should dispach action todos.Load upon initialization", () => {
+    const action = new fromTodosActions.Load();
+    comp.ngOnInit();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
   it("should dispatch a todos.Add action on add", () => {
     const action = new fromTodosActions.Add({
-      id: 1,
       description: "description",
       done: false
     });
@@ -57,20 +62,13 @@ describe("TodosComponent", () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it("should dispatch a todos.Done action on toggle", () => {
-    const action = new fromTodosActions.Done(2);
-
-    comp.add("description 1");
-    comp.add("description 2");
-    comp.add("description 3");
-
-    let todos: Todo[];
-    comp.todos$.subscribe(t => {
-      todos = t;
+  it("should dispatch a todos.Update action on toggle", () => {
+    const todo: Todo = { id: 1, description: "description 1", done: false };
+    const action = new fromTodosActions.Update({
+      ...todo,
+      done: true
     });
-
-    dispatchSpy.calls.reset();
-    comp.toggle(todos[1]);
+    comp.toggle(todo);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

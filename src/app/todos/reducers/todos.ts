@@ -1,27 +1,58 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { Todo } from "../models";
-import { TodosActions, TodosActionTypes } from "../actions";
+import {
+  TodosActions,
+  TodosActionTypes,
+  LoadFail,
+  LoadSuccess
+} from "../actions";
 
-export interface State extends EntityState<Todo> {}
+export interface State extends EntityState<Todo> {
+  error: string;
+  busy: boolean;
+}
 
 export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>({
   selectId: (todo: Todo) => todo.id
 });
 
-export const initialState: State = adapter.getInitialState({});
+export const initialState: State = adapter.getInitialState({
+  error: null,
+  busy: false
+});
 
 export function reducer(state = initialState, action: TodosActions): State {
   switch (action.type) {
-    case TodosActionTypes.Add: {
-      return adapter.addOne(action.payload as Todo, state);
+    case TodosActionTypes.Load:
+    case TodosActionTypes.Add:
+    case TodosActionTypes.Update: {
+      return { ...state, error: null, busy: true };
     }
-    case TodosActionTypes.Done: {
-      const id: number = action.payload as number;
-      return adapter.updateOne({ id: id, changes: { done: true } }, state);
+    case TodosActionTypes.LoadSuccess: {
+      return adapter.addMany(action.payload as Todo[], {
+        ...adapter.removeAll(state),
+        busy: false,
+        error: null
+      });
     }
-    case TodosActionTypes.UnDone: {
-      const id: number = action.payload as number;
-      return adapter.updateOne({ id: id, changes: { done: false } }, state);
+    case TodosActionTypes.AddSuccess: {
+      return adapter.addOne(action.payload as Todo, {
+        ...state,
+        busy: false,
+        error: null
+      });
+    }
+    case TodosActionTypes.UpdateSuccess: {
+      const todo: Todo = action.payload as Todo;
+      return adapter.updateOne(
+        { id: todo.id, changes: { ...todo } },
+        { ...state, busy: false, error: null }
+      );
+    }
+    case TodosActionTypes.LoadFail:
+    case TodosActionTypes.AddFail:
+    case TodosActionTypes.UpdateFail: {
+      return { ...state, error: action.payload, busy: false };
     }
     default: {
       return state;
@@ -42,3 +73,6 @@ export const {
   // select the total user count
   selectTotal: selectTodosTotal
 } = adapter.getSelectors();
+
+export const getTodosError = (state: State) => state.error;
+export const getTodosBusy = (state: State) => state.busy;

@@ -36,3 +36,13 @@ export const selectTodosTotal = createSelector(
   getTodosEntitiesState,
   fromTodos.selectTodosTotal
 );
+
+export const selectTodosError = createSelector(
+  getTodosEntitiesState,
+  fromTodos.getTodosError
+);
+
+export const selectTodosBusy = createSelector(
+  getTodosEntitiesState,
+  fromTodos.getTodosBusy
+);

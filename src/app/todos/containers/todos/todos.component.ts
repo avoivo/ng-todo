@@ -13,17 +13,14 @@ import * as fromTodosActions from "../../actions";
 })
 export class TodosComponent implements OnInit {
   todos$: Observable<Todo[]>;
-  private idCounter: number;
 
   constructor(private store: Store<fromTodos.State>) {
     this.todos$ = store.select(fromTodos.selectAllTodos);
-    this.idCounter = 0;
   }
 
   add(description: string) {
     this.store.dispatch(
       new fromTodosActions.Add({
-        id: ++this.idCounter,
         description: description,
         done: false
       })
@@ -31,12 +28,12 @@ export class TodosComponent implements OnInit {
   }
 
   toggle(todo: Todo) {
-    if (todo.done) {
-      this.store.dispatch(new fromTodosActions.UnDone(todo.id));
-    } else {
-      this.store.dispatch(new fromTodosActions.Done(todo.id));
-    }
+    this.store.dispatch(
+      new fromTodosActions.Update({ ...todo, done: !todo.done })
+    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(new fromTodosActions.Load());
+  }
 }
