@@ -11,7 +11,7 @@ import { Todo } from "../../models";
 @Component({
   selector: "todo-list",
   templateUrl: "./todo-list.component.html",
-  styleUrls: ["./todo-list.component.css"],
+  styleUrls: ["./todo-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent implements OnInit {

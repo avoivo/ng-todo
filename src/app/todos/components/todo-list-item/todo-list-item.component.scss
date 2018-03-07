@@ -1,8 +1,10 @@
+@import "~sass/variables";
+
 li {
   cursor: pointer;
   list-style-type: none;
-  background-color: #801515;
-  color: #ffaaaa;
+  background-color: $list-item-background-color;
+  color: $list-item-color;
   margin: 0.2rem;
   padding: 0.2rem;
 }
