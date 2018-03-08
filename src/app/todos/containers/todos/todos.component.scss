@@ -9,11 +9,13 @@ div.outer-container {
 
 div.input-container {
   display: flex;
-  flex-direction: row;
-}
-
-div.input-container input {
-  flex-grow: 1;
+  flex-direction: column;
+  input {
+    flex-grow: 1;
+  }
+  span {
+    font-size: 0.7rem;
+  }
 }
 
 div.todo-container {

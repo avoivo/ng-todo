@@ -1,7 +1,7 @@
 <div class="outer-container">
   <div class="input-container">
-    <input type="text" #todoInput>
-    <button (click)="add(todoInput.value)">Add</button>
+    <input type="text" #todoInput (keyup.enter)="todoInput.value && todoInput.value.trim() && add(todoInput.value);todoInput.value =''">
+    <span>press enter for submition</span>
   </div>
   <div class="todo-container">
     <todo-list [todos]="todos$|async" (toggle)="toggle($event)"></todo-list>
