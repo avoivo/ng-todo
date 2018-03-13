@@ -8,7 +8,10 @@ import {
   AddFail,
   Update,
   UpdateSuccess,
-  UpdateFail
+  UpdateFail,
+  FilterAll,
+  FilterDone,
+  FilterUndone
 } from "../actions";
 import * as fromTodos from "./todos";
 
@@ -16,14 +19,18 @@ describe("TodosReducer", () => {
   const todo1: Todo = generateMockTodo();
   const todo2: Todo = { ...todo1, id: 2 };
   const todo3: Todo = { ...todo1, id: 3 };
+  const initialEntities = {
+    [todo1.id]: todo1,
+    [todo2.id]: todo2
+  };
   const initialState: fromTodos.State = {
     ids: [todo1.id, todo2.id],
     entities: {
-      [todo1.id]: todo1,
-      [todo2.id]: todo2
+      ...initialEntities
     },
     error: null,
-    busy: false
+    busy: false,
+    filter: fromTodos.FilterBy.All
   };
 
   describe("undefined action", () => {
@@ -213,6 +220,45 @@ describe("TodosReducer", () => {
     });
     it("should set busy to false", () => {
       expect(result.busy).toBeFalsy();
+    });
+  });
+
+  describe("FILTER_ALL", () => {
+    let result;
+
+    beforeEach(() => {
+      result = fromTodos.reducer(
+        { ...initialState, filter: fromTodos.FilterBy.Done },
+        new FilterAll()
+      );
+    });
+
+    it("should set filter to FilterBy.All", () => {
+      expect(result.filter).toBe(fromTodos.FilterBy.All);
+    });
+  });
+
+  describe("FILTER_DONE", () => {
+    let result;
+
+    beforeEach(() => {
+      result = fromTodos.reducer(initialState, new FilterDone());
+    });
+
+    it("should set filter to FilterBy.Done", () => {
+      expect(result.filter).toBe(fromTodos.FilterBy.Done);
+    });
+  });
+
+  describe("FILTER_UNDONE", () => {
+    let result;
+
+    beforeEach(() => {
+      result = fromTodos.reducer(initialState, new FilterUndone());
+    });
+
+    it("should set filter to FilterBy.Undone", () => {
+      expect(result.filter).toBe(fromTodos.FilterBy.Undone);
     });
   });
 });

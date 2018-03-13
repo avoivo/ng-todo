@@ -7,9 +7,16 @@ import {
   LoadSuccess
 } from "../actions";
 
+export enum FilterBy {
+  All,
+  Done,
+  Undone
+}
+
 export interface State extends EntityState<Todo> {
   error: string;
   busy: boolean;
+  filter: FilterBy;
 }
 
 export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>({
@@ -18,7 +25,8 @@ export const adapter: EntityAdapter<Todo> = createEntityAdapter<Todo>({
 
 export const initialState: State = adapter.getInitialState({
   error: null,
-  busy: false
+  busy: false,
+  filter: FilterBy.All
 });
 
 export function reducer(state = initialState, action: TodosActions): State {
@@ -54,6 +62,23 @@ export function reducer(state = initialState, action: TodosActions): State {
     case TodosActionTypes.UpdateFail: {
       return { ...state, error: action.payload, busy: false };
     }
+
+    case TodosActionTypes.FilterAll:
+      return {
+        ...state,
+        filter: FilterBy.All
+      };
+    case TodosActionTypes.FilterDone:
+      return {
+        ...state,
+        filter: FilterBy.Done
+      };
+
+    case TodosActionTypes.FilterUndone:
+      return {
+        ...state,
+        filter: FilterBy.Undone
+      };
     default: {
       return state;
     }
@@ -76,3 +101,5 @@ export const {
 
 export const getTodosError = (state: State) => state.error;
 export const getTodosBusy = (state: State) => state.busy;
+
+export const getFilter = (state: State) => state.filter;

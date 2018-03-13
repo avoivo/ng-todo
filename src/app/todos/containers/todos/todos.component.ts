@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/combineLatest";
+import { map } from "rxjs/operators";
 import { Todo } from "../../models";
 
 import * as fromTodos from "../../reducers";
@@ -13,9 +15,24 @@ import * as fromTodosActions from "../../actions";
 })
 export class TodosComponent implements OnInit {
   todos$: Observable<Todo[]>;
+  filter$: Observable<number>;
 
   constructor(private store: Store<fromTodos.State>) {
-    this.todos$ = store.select(fromTodos.selectAllTodos);
+    this.filter$ = store.select(fromTodos.selectFilter);
+
+    this.todos$ = Observable.combineLatest(
+      store.select(fromTodos.selectAllTodos),
+      this.filter$
+    ).pipe(
+      map(latestValues => {
+        return latestValues[0].filter(
+          todo =>
+            latestValues[1] === fromTodos.FilterBy.All ||
+            (latestValues[1] === fromTodos.FilterBy.Undone && !todo.done) ||
+            (latestValues[1] === fromTodos.FilterBy.Done && todo.done)
+        );
+      })
+    );
   }
 
   add(description: string) {
@@ -35,5 +52,17 @@ export class TodosComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromTodosActions.Load());
+  }
+
+  filterAll() {
+    this.store.dispatch(new fromTodosActions.FilterAll());
+  }
+
+  filterDone() {
+    this.store.dispatch(new fromTodosActions.FilterDone());
+  }
+
+  filterUndone() {
+    this.store.dispatch(new fromTodosActions.FilterUndone());
   }
 }

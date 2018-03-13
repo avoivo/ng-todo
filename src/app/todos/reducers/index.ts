@@ -5,6 +5,8 @@ import {
 } from "@ngrx/store";
 import * as fromTodos from "./todos";
 
+export { FilterBy } from "./todos";
+
 export interface State {
   todos: fromTodos.State;
 }
@@ -45,4 +47,9 @@ export const selectTodosError = createSelector(
 export const selectTodosBusy = createSelector(
   getTodosEntitiesState,
   fromTodos.getTodosBusy
+);
+
+export const selectFilter = createSelector(
+  getTodosEntitiesState,
+  fromTodos.getFilter
 );

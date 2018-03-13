@@ -6,4 +6,41 @@
   <div class="todo-container">
     <todo-list [todos]="todos$|async" (toggle)="toggle($event)"></todo-list>
   </div>
+  <div class="filter-container">
+    <ul>
+      <li>
+
+        <ng-container *ngIf="(filter$ | async )=== 0; then filterAllTrue; else filterAllFalse"></ng-container>
+        <ng-template #filterAllTrue>
+          <span>All</span>
+        </ng-template>
+        <ng-template #filterAllFalse>
+          <a href="#" (click)="filterAll()">All</a>
+        </ng-template>
+
+
+      </li>
+      <li>
+
+        <ng-container *ngIf="(filter$ | async )=== 1; then filterDoneTrue; else filterDoneFalse"></ng-container>
+        <ng-template #filterDoneTrue>
+          <span>Done</span>
+        </ng-template>
+        <ng-template #filterDoneFalse>
+          <a href="#" (click)="filterDone()">Done</a>
+        </ng-template>
+      </li>
+      <li>
+
+        <ng-container *ngIf="(filter$ | async )=== 2; then filterUndoneTrue; else filterUndoneFalse"></ng-container>
+        <ng-template #filterUndoneTrue>
+          <span>Undone</span>
+        </ng-template>
+        <ng-template #filterUndoneFalse>
+          <a href="#" (click)="filterUndone()">Undone</a>
+        </ng-template>
+      </li>
+    </ul>
+
+  </div>
 </div>

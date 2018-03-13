@@ -21,3 +21,14 @@ div.input-container {
 div.todo-container {
   flex-grow: 1;
 }
+
+div.filter-container {
+  ul {
+    padding: 0rem;
+    li {
+      list-style-type: none;
+      display: inline-block;
+      font-size: 0.8rem;
+    }
+  }
+}

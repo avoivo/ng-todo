@@ -10,7 +10,10 @@ export enum TodosActionTypes {
   AddFail = "[Todos] Add Fail",
   Update = "[Todos] Update",
   UpdateSuccess = "[Todos] Update Success",
-  UpdateFail = "[Todos] Update Fail"
+  UpdateFail = "[Todos] Update Fail",
+  FilterAll = "[Todos] Filter All",
+  FilterDone = "[Todos] Filter Done",
+  FilterUndone = "[Todos] Filter Undone"
 }
 
 export class Load implements Action {
@@ -58,6 +61,21 @@ export class UpdateFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class FilterAll implements Action {
+  readonly type: string = TodosActionTypes.FilterAll;
+  constructor(public payload?: any) {}
+}
+
+export class FilterDone implements Action {
+  readonly type: string = TodosActionTypes.FilterDone;
+  constructor(public payload?: any) {}
+}
+
+export class FilterUndone implements Action {
+  readonly type: string = TodosActionTypes.FilterUndone;
+  constructor(public payload?: any) {}
+}
+
 export type TodosActions =
   | Load
   | LoadSuccess
@@ -67,4 +85,7 @@ export type TodosActions =
   | AddFail
   | Update
   | UpdateSuccess
-  | UpdateFail;
+  | UpdateFail
+  | FilterAll
+  | FilterDone
+  | FilterUndone;
