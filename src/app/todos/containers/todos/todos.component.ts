@@ -54,15 +54,14 @@ export class TodosComponent implements OnInit {
     this.store.dispatch(new fromTodosActions.Load());
   }
 
-  filterAll() {
-    this.store.dispatch(new fromTodosActions.FilterAll());
-  }
-
-  filterDone() {
-    this.store.dispatch(new fromTodosActions.FilterDone());
-  }
-
-  filterUndone() {
-    this.store.dispatch(new fromTodosActions.FilterUndone());
+  filter(filter: fromTodos.FilterBy) {
+    switch (filter) {
+      case fromTodos.FilterBy.All:
+        return this.store.dispatch(new fromTodosActions.FilterAll());
+      case fromTodos.FilterBy.Done:
+        return this.store.dispatch(new fromTodosActions.FilterDone());
+      case fromTodos.FilterBy.Undone:
+        return this.store.dispatch(new fromTodosActions.FilterUndone());
+    }
   }
 }

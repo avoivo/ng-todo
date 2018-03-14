@@ -1,0 +1,5 @@
+<ul>
+  <todo-filter-list-item text="All" [clickable]="activeFilter !== 0" (click)="select.emit(0)"></todo-filter-list-item>
+  <todo-filter-list-item text="Done" [clickable]="activeFilter !== 1" (click)="select.emit(1)"></todo-filter-list-item>
+  <todo-filter-list-item text="Undone" [clickable]="activeFilter !== 2" (click)="select.emit(2)"></todo-filter-list-item>
+</ul>

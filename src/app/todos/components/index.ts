@@ -1,4 +1,11 @@
-import { TodoListComponent } from "./todo-list/todo-list.component";
-import { TodoListItemComponent } from "./todo-list-item/todo-list-item.component";
+import { TodoListComponent } from "./todo-list";
+import { TodoListItemComponent } from "./todo-list-item";
+import { TodoFilterListComponent } from "./todo-filter-list";
+import { TodoFilterListItemComponent } from "./todo-filter-list-item";
 
-export const components = [TodoListComponent, TodoListItemComponent];
+export const components = [
+  TodoListComponent,
+  TodoListItemComponent,
+  TodoFilterListComponent,
+  TodoFilterListItemComponent
+];

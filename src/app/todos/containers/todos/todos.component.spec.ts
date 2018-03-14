@@ -1,7 +1,13 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { combineReducers, Store, StoreModule } from "@ngrx/store";
 import { By } from "@angular/platform-browser";
-import { DebugElement, Component, Input } from "@angular/core";
+import {
+  DebugElement,
+  Component,
+  Input,
+  Output,
+  EventEmitter
+} from "@angular/core";
 import * as fromTodos from "../../reducers";
 import * as fromTodosActions from "../../actions";
 
@@ -16,6 +22,15 @@ export class MockTodoListComponent {
   @Input() todos: Todo[];
 }
 
+@Component({
+  selector: "todo-filter-list",
+  template: "<h1>activeFilter: {{activeFilter}}</h1>"
+})
+export class MockTodoFilterListComponent {
+  @Input() activeFilter: number;
+  @Output() onFilterSelect: EventEmitter<number> = new EventEmitter<number>();
+}
+
 describe("TodosComponent", () => {
   let comp: TodosComponent;
   let fixture: ComponentFixture<TodosComponent>;
@@ -25,7 +40,11 @@ describe("TodosComponent", () => {
   let dispatchSpy: jasmine.Spy;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TodosComponent, MockTodoListComponent], // declare the test component
+      declarations: [
+        TodosComponent,
+        MockTodoListComponent,
+        MockTodoFilterListComponent
+      ], // declare the test component
       imports: [
         StoreModule.forRoot({
           Todos: combineReducers(fromTodos.reducers)
@@ -69,6 +88,24 @@ describe("TodosComponent", () => {
       done: true
     });
     comp.toggle(todo);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it("should dispatch a todos.FilterAll action on filter(0)", () => {
+    const action = new fromTodosActions.FilterAll();
+    comp.filter(0);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it("should dispatch a todos.FilterDone action on filter(1)", () => {
+    const action = new fromTodosActions.FilterDone();
+    comp.filter(1);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it("should dispatch a todos.FilterUndone action on filter(2)", () => {
+    const action = new fromTodosActions.FilterUndone();
+    comp.filter(2);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

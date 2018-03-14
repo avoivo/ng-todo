@@ -1,0 +1,14 @@
+<li>
+
+  <ng-container *ngIf="clickable; then ifTrue; else ifFalse"></ng-container>
+
+  <ng-template #ifTrue>
+    <a href="#" (click)="click.emit($event)">{{text}}</a>
+  </ng-template>
+
+  <ng-template #ifFalse>
+    <span>{{text}}</span>
+  </ng-template>
+
+
+</li>

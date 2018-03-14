@@ -52,18 +52,19 @@ describe("TodoListComponent", () => {
   it(
     "should emit when a todo is clicked",
     async(() => {
+      let todoToEmit: Todo = { id: 2, description: "two", done: false };
       comp.todos = [
         { id: 1, description: "one", done: false },
-        { id: 2, description: "two", done: false },
+        { ...todoToEmit },
         { id: 3, description: "three", done: false }
       ];
+
+      spyOn(comp.toggle, "emit");
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         let secondItem = de.queryAll(By.css("todo-list-item"))[1];
-        comp.toggle.subscribe((todo: Todo) => {
-          expect(todo.id).toBe(2);
-        });
         secondItem.nativeElement.click();
+        expect(comp.toggle.emit).toHaveBeenCalledWith(todoToEmit);
       });
     })
   );
