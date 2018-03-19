@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/combineLatest";
+import "rxjs/add/operator/let";
 import { map } from "rxjs/operators";
 import { Todo } from "../../models";
 
@@ -23,16 +24,7 @@ export class TodosComponent implements OnInit {
     this.todos$ = Observable.combineLatest(
       store.select(fromTodos.selectAllTodos),
       this.filter$
-    ).pipe(
-      map(latestValues => {
-        return latestValues[0].filter(
-          todo =>
-            latestValues[1] === fromTodos.FilterBy.All ||
-            (latestValues[1] === fromTodos.FilterBy.Undone && !todo.done) ||
-            (latestValues[1] === fromTodos.FilterBy.Done && todo.done)
-        );
-      })
-    );
+    ).let(fromTodos.filteredTodosSelector);
   }
 
   add(description: string) {

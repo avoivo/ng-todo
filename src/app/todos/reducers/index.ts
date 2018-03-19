@@ -5,7 +5,7 @@ import {
 } from "@ngrx/store";
 import * as fromTodos from "./todos";
 
-export { FilterBy } from "./todos";
+export { FilterBy, filteredTodosSelector } from "./todos";
 
 export interface State {
   todos: fromTodos.State;

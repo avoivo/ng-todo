@@ -6,6 +6,8 @@ import {
   LoadFail,
   LoadSuccess
 } from "../actions";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
 
 export enum FilterBy {
   All,
@@ -103,3 +105,13 @@ export const getTodosError = (state: State) => state.error;
 export const getTodosBusy = (state: State) => state.busy;
 
 export const getFilter = (state: State) => state.filter;
+
+export const filteredTodosSelector = (state: Observable<[Todo[], FilterBy]>) =>
+  state.map(([todos, filter]) =>
+    todos.filter(
+      todo =>
+        filter === FilterBy.All ||
+        (filter === FilterBy.Undone && !todo.done) ||
+        (filter === FilterBy.Done && todo.done)
+    )
+  );
