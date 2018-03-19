@@ -45,9 +45,7 @@ export class TodosComponent implements OnInit {
   }
 
   toggle(todo: Todo) {
-    this.store.dispatch(
-      new fromTodosActions.Update({ ...todo, done: !todo.done })
-    );
+    this.store.dispatch(new fromTodosActions.ToggleDone(todo.id));
   }
 
   ngOnInit() {

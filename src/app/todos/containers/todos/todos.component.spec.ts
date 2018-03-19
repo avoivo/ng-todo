@@ -81,12 +81,9 @@ describe("TodosComponent", () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it("should dispatch a todos.Update action on toggle", () => {
+  it("should dispatch a todos.ToggleDone action on toggle", () => {
     const todo: Todo = { id: 1, description: "description 1", done: false };
-    const action = new fromTodosActions.Update({
-      ...todo,
-      done: true
-    });
+    const action = new fromTodosActions.ToggleDone(todo.id);
     comp.toggle(todo);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

@@ -170,4 +170,21 @@ describe("TodosEfects", () => {
       expect(todosServiceSpy.get).toHaveBeenCalled();
     });
   });
+
+  describe("toggleDone", () => {
+    it("should dispatch a UPDATE action with a toggled done property", () => {
+      const action = new fromActions.ToggleDone(todo.id);
+      const completion = new fromActions.Update({
+        ...todo,
+        done: !todo.done
+      });
+
+      todosServiceSpy.get.and.returnValue(Observable.of(todo));
+
+      actions$.stream = hot("-a|", { a: action });
+      const expected = cold("-b|", { b: completion });
+      expect(effects.toggleDone$).toBeObservable(expected);
+      expect(todosServiceSpy.get).toHaveBeenCalledWith(todo.id);
+    });
+  });
 });

@@ -52,4 +52,16 @@ export class TodosEffects {
       )
     )
   );
+
+  @Effect()
+  toggleDone$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.TodosActionTypes.ToggleDone),
+    switchMap((action: fromActions.ToggleDone) =>
+      this.todosService
+        .get(action.payload)
+        .pipe(
+          map(todo => new fromActions.Update({ ...todo, done: !todo.done }))
+        )
+    )
+  );
 }

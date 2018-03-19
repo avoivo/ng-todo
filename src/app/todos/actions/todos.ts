@@ -13,7 +13,8 @@ export enum TodosActionTypes {
   UpdateFail = "[Todos] Update Fail",
   FilterAll = "[Todos] Filter All",
   FilterDone = "[Todos] Filter Done",
-  FilterUndone = "[Todos] Filter Undone"
+  FilterUndone = "[Todos] Filter Undone",
+  ToggleDone = "[Todos] Toggle Done"
 }
 
 export class Load implements Action {
@@ -76,6 +77,11 @@ export class FilterUndone implements Action {
   constructor(public payload?: any) {}
 }
 
+export class ToggleDone implements Action {
+  readonly type: string = TodosActionTypes.ToggleDone;
+  constructor(public payload: number) {}
+}
+
 export type TodosActions =
   | Load
   | LoadSuccess
@@ -88,4 +94,5 @@ export type TodosActions =
   | UpdateFail
   | FilterAll
   | FilterDone
-  | FilterUndone;
+  | FilterUndone
+  | ToggleDone;
